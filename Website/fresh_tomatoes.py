@@ -2,7 +2,6 @@ import webbrowser
 import os
 import re
 
-
 # Styles and scripting for the page
 main_page_head = '''
 <!DOCTYPE html>
@@ -11,44 +10,47 @@ main_page_head = '''
     <meta charset="utf-8">
     <title>OSTL Mini Project</title>
 
-    <!-- Bootstrap 3 -->
+    <!-- Bootstrap 3 CSS for styling -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    
+    <!-- jQuery and Bootstrap JS for interactive components -->
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+    <!-- Custom CSS styles -->
     <style type="text/css" media="screen">
         body {
-            padding-top: 80px;
-            background-color: black;
-            
+            padding-top: 80px; /* Space for fixed navbar */
+            background-color: black; /* Background color of the page */
         }
         #trailer .modal-dialog {
-            margin-top: 200px;
-            width: 640px;
-            height: 480px;
+            margin-top: 200px; /* Positioning the modal vertically */
+            width: 640px; /* Width of the modal */
+            height: 480px; /* Height of the modal */
         }
         .hanging-close {
             position: absolute;
             top: -12px;
             right: -12px;
-            z-index: 9001;
+            z-index: 9001; /* Ensures the close button is on top */
         }
         #trailer-video {
             width: 100%;
             height: 100%;
         }
         .movie-tile {
-            margin-bottom: 20px;
-            padding-top: 20px;
-            color: white;
+            margin-bottom: 20px; /* Space below each movie tile */
+            padding-top: 20px; /* Space above each movie tile */
+            color: white; /* Text color */
         }
         .movie-tile:hover {
-            background-color: #EEE;
-            cursor: pointer;
-            color: black;
+            background-color: #EEE; /* Background on hover */
+            cursor: pointer; /* Pointer cursor on hover */
+            color: black; /* Text color on hover */
         }
         .scale-media {
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             position: relative;
         }
         .scale-media iframe {
@@ -58,20 +60,22 @@ main_page_head = '''
             width: 100%;
             left: 0;
             top: 0;
-            background-color: black;
+            background-color: black; /* Background behind the video */
         }
     </style>
+    
+    <!-- Custom JavaScript for interactivity -->
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
         $(document).on('click', '.hanging-close, .modal-backdrop, .modal', function (event) {
-            // Remove the src so the player itself gets removed, as this is the only
-            // reliable way to ensure the video stops playing in IE
+            // Remove the src attribute to stop the video playback
             $("#trailer-video-container").empty();
         });
+        
         // Start playing the video whenever the trailer modal is opened
         $(document).on('click', '.movie-tile', function (event) {
-            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id'); // Get YouTube ID from data attribute
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1'; // Construct embed URL with autoplay
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
               'id': 'trailer-video',
               'type': 'text-html',
@@ -79,16 +83,16 @@ main_page_head = '''
               'frameborder': 0
             }));
         });
+        
         // Animate in the movies when the page loads
         $(document).ready(function () {
           $('.movie-tile').hide().first().show("fast", function showNext() {
-            $(this).next("div").show("fast", showNext);
+            $(this).next("div").show("fast", showNext); // Sequentially display movie tiles
           });
         });
     </script>
 </head>
 '''
-
 
 # The main page layout and title bar
 main_page_content = '''
@@ -97,9 +101,11 @@ main_page_content = '''
     <div class="modal" id="trailer">
       <div class="modal-dialog">
         <div class="modal-content">
+          <!-- Close button for the modal -->
           <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
             <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
           </a>
+          <!-- Container for the trailer video -->
           <div class="scale-media" id="trailer-video-container">
           </div>
         </div>
@@ -108,6 +114,7 @@ main_page_content = '''
 
     <!-- Main Page Content -->
     <div class="container">
+      <!-- Fixed navbar at the top -->
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -116,6 +123,8 @@ main_page_content = '''
         </div>
       </div>
     </div>
+    
+    <!-- Container for all movie tiles -->
     <div class="container">
       {movie_tiles}
     </div>
@@ -123,8 +132,7 @@ main_page_content = '''
 </html>
 '''
 
-
-# A single movie entry html template
+# A single movie entry HTML template
 movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342" alt="{movie_title} - {movie_year}">
@@ -135,12 +143,20 @@ movie_tile_content = '''
 </div>
 '''
 
-
 def create_movie_tiles_content(movies):
-    # The HTML content for this section of the page
+    """
+    Generate the HTML content for each movie tile.
+
+    Args:
+        movies (list): List of Movie instances.
+
+    Returns:
+        str: Combined HTML content for all movie tiles.
+    """
+    # Initialize the content variable
     content = ''
     for movie in movies:
-        # Extract the youtube ID from the url
+        # Extract the YouTube ID from the trailer URL using regex
         youtube_id_match = re.search(
             r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
         youtube_id_match = youtube_id_match or re.search(
@@ -148,7 +164,7 @@ def create_movie_tiles_content(movies):
         trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
                               else None)
 
-        # Append the tile for the movie with its content filled in
+        # Append the movie tile with the specific movie's data
         content += movie_tile_content.format(
             movie_title = movie.title,
             movie_storyline = movie.storyline,
@@ -160,21 +176,27 @@ def create_movie_tiles_content(movies):
 
     return content
 
-
 def open_movies_page(movies, counter):
+    """
+    Create or overwrite the output HTML file and open it in the browser.
+
+    Args:
+        movies (list): List of Movie instances.
+        counter (int): Total number of movie instances.
+    """
     # Create or overwrite the output file
     output_file = open('fresh_tomatoes.html', 'w')
 
-    # Replace the movie tiles placeholder generated content
-    # Replace the number of movie displayed in the site title
+    # Generate the movie tiles HTML by inserting the movie data
     rendered_content = main_page_content.format(
         movie_tiles=create_movie_tiles_content(movies),
-        movie_counter = counter)
+        movie_counter = counter)  # Note: 'movie_counter' is not used in the template
 
-    # Output the file
+    # Write the combined HTML content to the file
     output_file.write(main_page_head + rendered_content)
     output_file.close()
 
-    # open the output file in the browser (in a new tab, if possible)
+    # Get the absolute path to the output file
     url = os.path.abspath(output_file.name)
+    # Open the output file in the default web browser in a new tab
     webbrowser.open('file://' + url, new=2)
