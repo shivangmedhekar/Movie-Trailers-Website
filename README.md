@@ -1,52 +1,73 @@
-# Movie-Trailers-Website
+# Movie Trailers Website
 
-This project will build a Movie Trailer Website where users can see my favorite movies and watch the trailers. The code stores a list of movie titles, poster images, and movie trailer, genre, lead actor, director and year of release URLs. This information is displayed on a web page and allow users to review the movies and watch the trailers.
+This project is a **Movie Trailers Website** that showcases details and trailers for selected movies. It generates a visually appealing webpage displaying movie posters, titles, release years, directors, and storylines. Users can click on a movie tile to view the trailer, which plays within a modal on the same page.
 
-The Movie Class in the media.py module creates a data structure to store your favorite movies, including movie title, box art URL (or poster URL) and a YouTube link to the movie trailer.
+## Features
 
-The entertainment_center.py file creates multiple instances of that Movie Class to represent your favorite movies and groups all the instances together in a list.
+- Displays movie posters, titles, years, directors, and plot summaries.
+- Dynamic modal pop-up to watch movie trailers without leaving the page.
+- Supports a list of movies, auto-generating HTML to display movie information.
+- Responsive and interactive webpage using Bootstrap for styling and jQuery for animations.
 
-The Python module called fresh_tomatoes.py has a function called open_movies_page that takes in one argument, which is a list of movies and creates an HTML file which visualizes all of your favorite movies.
+## Technologies Used
 
-### Contents of Website
+- **Python**: Backend logic for generating HTML content.
+- **HTML/CSS**: For the structure and styling of the webpage.
+- **Bootstrap**: For responsive design and layout.
+- **jQuery**: For modal pop-up and animation effects.
+
+## How to Run
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/shivangmedhekar/Movie-Trailers-Website.git
+   cd Movie-Trailers-Website
+   ```
+
+2. **Run the Python script**:
+   Execute the `entertainment_center.py` file to generate and launch the movie trailers webpage.
+   ```bash
+   python entertainment_center.py
+   ```
+
+3. **View the Webpage**:
+   The webpage will automatically open in your default browser. You can view the movie details and play trailers directly from the site.
+
+## Adding Movies
+
+To add more movies, modify the `entertainment_center.py` file by creating new instances of the `Movie` class and appending them to the `movies` list.
+
+Example:
+```python
+new_movie = media.Movie(
+            "Movie Title",
+            "Movie storyline...",
+            "Genre",
+            "Main Actor",
+            "Director",
+            "Release Year",
+            "Poster Image URL",
+            "YouTube Trailer URL")
+
+movies.append(new_movie)
 ```
-Website/
-├── entertainment_center.py
-├── media.py
-└── fresh_tomatoes.py
-```
 
-## Requirements
-- Python 2.7 or Python 3.x
+## Project Structure
 
-You can download python [here](https://www.python.org/downloads/).
+- **entertainment_center.py**: Main script that initializes movie instances and generates the webpage.
+- **fresh_tomatoes.py**: Contains HTML templates and functions to generate the movie tiles and display the webpage.
+- **media.py**: Defines the `Movie` class to represent each movie and track the total number of movies.
 
-## Usage:
+## Future Enhancements
 
-You should start cloning this repository:
-
-    $ git clone https://github.com/shivangmedhekar/Movie-Trailers-Website.git
-
-After getting the code, you must run **entertainment_center.py** script with **python** like this:
-    
-    $ cd Website
-    $ python entertainment_center.py
-
-This script will create the **fresh_tomatoes.html** and open a web browser for you to show the page.
-
-
-
-## Team
-|  **Shivang Medhekar** |  **Elton Lemos** | **Abhishek Ghoshal** | **Nivya Jomichan** | **Prim Dsouza** |
-| :---: |:---:|:---:| :---:|:---:|
-| [![Shivang Medhekar](https://avatars2.githubusercontent.com/u/69140290?s=200&u=5df35a82b6d2b6b7b876dfdc22d451c92d30a5c6&v=4)](https://github.com/shivangmedhekar) | <img src = "https://media-exp1.licdn.com/dms/image/C5103AQFG2Cinmyjfbg/profile-displayphoto-shrink_800_800/0?e=1602115200&v=beta&t=GQxWNoIkQyqb_twmRr_Wwf_44zsKFeOuzFibL83ysGs" width="200" height="200"> | <img src = "https://media-exp1.licdn.com/dms/image/C5103AQE9eeVdOp_gVA/profile-displayphoto-shrink_800_800/0?e=1602115200&v=beta&t=Vgfke5AYbbkNQfEYyrMWqueCT1W3GQEKoJjJZkSx_ZE" width="200" height="200">| <img src = "https://media-exp1.licdn.com/dms/image/C5103AQGtPzutUIVeAg/profile-displayphoto-shrink_800_800/0?e=1602115200&v=beta&t=a2YkXZmZB4E_lHfHKFxe9r-SioRfRwmU-fhsuYV4Q5E" width="200" height="200">| <img src = "https://media-exp1.licdn.com/dms/image/C5103AQFCKYWDUjPpkQ/profile-displayphoto-shrink_800_800/0?e=1602115200&v=beta&t=OOZhorVX1DQtFKfq8QUp6fRO0qGFudlSL2B8l9aeuBg" width="200" height="200">|
-| <a href="https://github.com/shivangmedhekar" target="_blank">`github.com/shivangmedhekar`</a>| <a href="https://github.com/icefrostpeng" target="_blank">`github.com/icefrostpeng`</a> |  <a href="https://github.com/abhighosh98" target="_blank">`github.com/abhighosh98`</a> |  <a href="https://github.com/nivyajomichan" target="_blank">`github.com/nivyajomichan`</a> |  <a href="https://github.com/primdsouza30" target="_blank">`github.com/primdsouza30`</a> |  
-
-
-
+- Add more customization options for movie display (e.g., filters by genre or year).
+- Improve the UI with additional animations and interactive features.
+- Integrate a database for dynamic movie storage.
 
 ## License
 
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+This project is licensed under the MIT License.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+---
+
+Enjoy browsing your favorite movie trailers with this interactive website!
